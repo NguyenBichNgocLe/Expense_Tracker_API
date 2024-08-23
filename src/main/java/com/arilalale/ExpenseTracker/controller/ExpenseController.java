@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arilalale.ExpenseTracker.dto.DateDTO;
 import com.arilalale.ExpenseTracker.dto.ExpenseDTO;
 import com.arilalale.ExpenseTracker.entity.Expense;
 import com.arilalale.ExpenseTracker.services.expense.ExpenseService;
@@ -59,6 +60,11 @@ public class ExpenseController {
     @GetMapping("/last3months")
     public ResponseEntity<?> getExpensesLast3Months() {
         return ResponseEntity.ok(expenseService.filterExpensesLast3Months());
+    }
+
+    @GetMapping("/custom")
+    public ResponseEntity<?> getExpensesByCustom(@RequestBody DateDTO dto) {
+        return ResponseEntity.ok(expenseService.filterExpensesByCustom(dto.getStartDate(), dto.getEndDate()));
     }
 
     @PostMapping

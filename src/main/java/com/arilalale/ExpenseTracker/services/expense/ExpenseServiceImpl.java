@@ -106,4 +106,14 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<Expense> filterExpensesByCustom(LocalDate startDate, LocalDate endDate) {
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(startDate) &&
+                        !expense.getDate().isAfter(endDate))
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
+    }
 }
