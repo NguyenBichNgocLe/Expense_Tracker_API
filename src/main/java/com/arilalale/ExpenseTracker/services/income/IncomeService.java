@@ -7,7 +7,7 @@ import com.arilalale.ExpenseTracker.entity.Income;
 
 public interface IncomeService {
 
-    public Income postIncome(IncomeDTO incomeDTO);
+    Income postIncome(IncomeDTO incomeDTO);
 
     List<Income> getAllIncomes();
 
