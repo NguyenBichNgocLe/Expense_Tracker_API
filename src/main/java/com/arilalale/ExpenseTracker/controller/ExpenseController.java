@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arilalale.ExpenseTracker.dto.DateDTO;
 import com.arilalale.ExpenseTracker.dto.ExpenseDTO;
 import com.arilalale.ExpenseTracker.entity.Expense;
 import com.arilalale.ExpenseTracker.services.expense.ExpenseService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -44,7 +46,27 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
     }
+
+    @GetMapping("/lastweek")
+    public ResponseEntity<?> getExpensesLastWeek() {
+        return ResponseEntity.ok(expenseService.filterExpensesLastWeek());
+    }
     
+    @GetMapping("/lastmonth")
+    public ResponseEntity<?> getExpensesLastMonth() {
+        return ResponseEntity.ok(expenseService.filterExpensesLastMonth());
+    }
+
+    @GetMapping("/last3months")
+    public ResponseEntity<?> getExpensesLast3Months() {
+        return ResponseEntity.ok(expenseService.filterExpensesLast3Months());
+    }
+
+    @GetMapping("/custom")
+    public ResponseEntity<?> getExpensesByCustom(@RequestBody DateDTO dto) {
+        return ResponseEntity.ok(expenseService.filterExpensesByCustom(dto.getStartDate(), dto.getEndDate()));
+    }
+
     @PostMapping
     public ResponseEntity<?> postExpense (@RequestBody ExpenseDTO expenseDTO) {
         Expense createdExpense = expenseService.postExpense(expenseDTO);

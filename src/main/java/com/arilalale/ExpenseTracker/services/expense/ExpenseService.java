@@ -1,5 +1,6 @@
 package com.arilalale.ExpenseTracker.services.expense;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.arilalale.ExpenseTracker.dto.ExpenseDTO;
@@ -16,4 +17,12 @@ public interface ExpenseService {
     Expense updateExpense(Long id, ExpenseDTO expenseDTO);
 
     void deleteExpense(Long id);
+
+    List<Expense> filterExpensesLastWeek();
+
+    List<Expense> filterExpensesLastMonth();
+
+    List<Expense> filterExpensesLast3Months();
+
+    List<Expense> filterExpensesByCustom(LocalDate startDate, LocalDate endDate);
 }

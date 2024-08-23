@@ -1,5 +1,6 @@
 package com.arilalale.ExpenseTracker.services.expense;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -65,5 +66,54 @@ public class ExpenseServiceImpl implements ExpenseService {
         } else {
             throw new EntityNotFoundException("Expense is not present with ID " + id);
         }
+    }
+
+    public List<Expense> filterExpensesLastWeek() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate oneWeekAgo = currentDate.minusWeeks(1);
+
+        return expenseRepository.findAll().stream()
+                .filter(expense -> !expense.getDate().isBefore(oneWeekAgo))
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Expense> filterExpensesLastMonth() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLastMonth = currentDate.minusMonths(1).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(firstDayOfLastMonth) &&
+                        !expense.getDate().isAfter(lastDayOfLastMonth))
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Expense> filterExpensesLast3Months() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLast3Month = currentDate.minusMonths(3).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(firstDayOfLast3Month) &&
+                        !expense.getDate().isAfter(lastDayOfLastMonth))
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Expense> filterExpensesByCustom(LocalDate startDate, LocalDate endDate) {
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(startDate) &&
+                        !expense.getDate().isAfter(endDate))
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
     }
 }
