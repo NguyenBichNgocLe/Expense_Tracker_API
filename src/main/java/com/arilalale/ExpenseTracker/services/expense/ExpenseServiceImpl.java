@@ -1,7 +1,6 @@
 package com.arilalale.ExpenseTracker.services.expense;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -73,14 +72,24 @@ public class ExpenseServiceImpl implements ExpenseService {
         LocalDate currentDate = LocalDate.now();
         LocalDate oneWeekAgo = currentDate.minusWeeks(1);
 
-        List<Expense> expenses = expenseRepository.findAll().stream()
-                                    .filter(expense -> !expense.getDate().isBefore(oneWeekAgo))
-                                    .sorted(Comparator.comparing(Expense::getDate).reversed())
-                                    .collect(Collectors.toList());
-        if(expenses.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            return expenses;
-        }
+        return expenseRepository.findAll().stream()
+                .filter(expense -> !expense.getDate().isBefore(oneWeekAgo))
+                .sorted(Comparator.comparing(Expense::getDate).reversed())
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Expense> filterExpensesLastMonth() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLastMonth = currentDate.minusMonths(1).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(firstDayOfLastMonth) &&
+                        !expense.getDate().isAfter(lastDayOfLastMonth))
+                .sorted(Comparator.comparing(Expense::getDate).reversed())
+                .collect(Collectors.toList());
+
     }
 }

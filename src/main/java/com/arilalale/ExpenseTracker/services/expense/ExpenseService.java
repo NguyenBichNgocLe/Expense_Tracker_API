@@ -18,4 +18,6 @@ public interface ExpenseService {
     void deleteExpense(Long id);
 
     List<Expense> filterExpensesLastWeek();
+
+    List<Expense> filterExpensesLastMonth();
 }

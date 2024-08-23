@@ -51,7 +51,11 @@ public class ExpenseController {
         return ResponseEntity.ok(expenseService.filterExpensesLastWeek());
     }
     
-    
+    @GetMapping("/lastmonth")
+    public ResponseEntity<?> getExpensesLastMonth() {
+        return ResponseEntity.ok(expenseService.filterExpensesLastMonth());
+    }
+
     @PostMapping
     public ResponseEntity<?> postExpense (@RequestBody ExpenseDTO expenseDTO) {
         Expense createdExpense = expenseService.postExpense(expenseDTO);
