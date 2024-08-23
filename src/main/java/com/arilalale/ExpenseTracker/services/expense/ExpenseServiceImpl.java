@@ -1,5 +1,7 @@
 package com.arilalale.ExpenseTracker.services.expense;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,21 @@ public class ExpenseServiceImpl implements ExpenseService {
             expenseRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Expense is not present with ID " + id);
+        }
+    }
+
+    public List<Expense> filterExpensesLastWeek() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate oneWeekAgo = currentDate.minusWeeks(1);
+
+        List<Expense> expenses = expenseRepository.findAll().stream()
+                                    .filter(expense -> !expense.getDate().isBefore(oneWeekAgo))
+                                    .sorted(Comparator.comparing(Expense::getDate).reversed())
+                                    .collect(Collectors.toList());
+        if(expenses.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return expenses;
         }
     }
 }

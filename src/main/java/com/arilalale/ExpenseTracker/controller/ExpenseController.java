@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
+
 @RestController
 @RequestMapping("/api/expense")
 @RequiredArgsConstructor
@@ -44,6 +45,12 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
     }
+
+    @GetMapping("/lastweek")
+    public ResponseEntity<?> getExpensesLastWeek() {
+        return ResponseEntity.ok(expenseService.filterExpensesLastWeek());
+    }
+    
     
     @PostMapping
     public ResponseEntity<?> postExpense (@RequestBody ExpenseDTO expenseDTO) {
