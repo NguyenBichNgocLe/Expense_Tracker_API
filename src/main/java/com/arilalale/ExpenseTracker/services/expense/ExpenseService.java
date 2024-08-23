@@ -20,4 +20,6 @@ public interface ExpenseService {
     List<Expense> filterExpensesLastWeek();
 
     List<Expense> filterExpensesLastMonth();
+
+    List<Expense> filterExpensesLast3Months();
 }

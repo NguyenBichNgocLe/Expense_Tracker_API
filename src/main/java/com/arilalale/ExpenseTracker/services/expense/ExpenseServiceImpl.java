@@ -74,7 +74,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return expenseRepository.findAll().stream()
                 .filter(expense -> !expense.getDate().isBefore(oneWeekAgo))
-                .sorted(Comparator.comparing(Expense::getDate).reversed())
+                .sorted(Comparator.comparing(Expense::getDate))
                 .collect(Collectors.toList());
 
     }
@@ -88,7 +88,21 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .filter(expense -> 
                         !expense.getDate().isBefore(firstDayOfLastMonth) &&
                         !expense.getDate().isAfter(lastDayOfLastMonth))
-                .sorted(Comparator.comparing(Expense::getDate).reversed())
+                .sorted(Comparator.comparing(Expense::getDate))
+                .collect(Collectors.toList());
+
+    }
+
+    public List<Expense> filterExpensesLast3Months() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLast3Month = currentDate.minusMonths(3).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        return expenseRepository.findAll().stream()
+                .filter(expense -> 
+                        !expense.getDate().isBefore(firstDayOfLast3Month) &&
+                        !expense.getDate().isAfter(lastDayOfLastMonth))
+                .sorted(Comparator.comparing(Expense::getDate))
                 .collect(Collectors.toList());
 
     }
