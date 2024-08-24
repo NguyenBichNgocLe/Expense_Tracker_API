@@ -3,6 +3,7 @@ package com.arilalale.ExpenseTracker.services.income;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -65,5 +66,17 @@ public class IncomeServiceImpl implements IncomeService {
         } else {
             throw new EntityNotFoundException("Income with the ID " + id + " not found");
         }
+    }
+
+    public List<Income> filterIncomesLastMonth() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLastMonth = currentDate.minusMonths(1).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        return incomeRepository.findAll().stream()
+                .filter(income -> !income.getDate().isBefore(firstDayOfLastMonth) &&
+                        !income.getDate().isAfter(lastDayOfLastMonth))
+                .sorted(Comparator.comparing(Income::getDate))
+                .collect(Collectors.toList());
     }
 }

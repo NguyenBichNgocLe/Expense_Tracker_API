@@ -43,6 +43,11 @@ public class IncomeController {
         }
     }
 
+    @GetMapping("/lastmonth")
+    public ResponseEntity<?> getIncomesLastMonth() {
+        return ResponseEntity.ok(incomeService.filterIncomesLastMonth());
+    }
+
     @PostMapping
     public ResponseEntity<?> postIncome (@RequestBody IncomeDTO incomeDTO) {
         Income createdIncome = incomeService.postIncome(incomeDTO);

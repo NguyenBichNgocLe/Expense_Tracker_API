@@ -16,4 +16,6 @@ public interface IncomeService {
     Income updateIncome(Long id, IncomeDTO incomeDTO);
 
     void deleteIncome(Long id);
+
+    List<Income> filterIncomesLastMonth();
 }
