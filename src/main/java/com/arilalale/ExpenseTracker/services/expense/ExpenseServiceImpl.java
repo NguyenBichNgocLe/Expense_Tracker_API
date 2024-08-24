@@ -113,4 +113,19 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .collect(Collectors.toList());
 
     }
+
+    public Integer totalExpenseLastMonth() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLastMonth = currentDate.minusMonths(1).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        List<Expense> listExpense = expenseRepository.findAll().stream()
+                                    .filter(expense -> !expense.getDate().isBefore(firstDayOfLastMonth) &&
+                                    !expense.getDate().isAfter(lastDayOfLastMonth))
+                                    .collect(Collectors.toList());
+
+        int total = listExpense.stream().filter(x -> x.getAmount() > 0).mapToInt(Expense::getAmount).sum();
+
+        return total;
+    }
 }

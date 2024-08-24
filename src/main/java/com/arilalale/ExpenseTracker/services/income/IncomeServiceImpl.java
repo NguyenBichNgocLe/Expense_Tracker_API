@@ -79,4 +79,19 @@ public class IncomeServiceImpl implements IncomeService {
                 .sorted(Comparator.comparing(Income::getDate))
                 .collect(Collectors.toList());
     }
+
+    public Integer totalIncomeLastMonth() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate firstDayOfLastMonth = currentDate.minusMonths(1).withDayOfMonth(1);
+        LocalDate lastDayOfLastMonth = currentDate.withDayOfMonth(1).minusDays(1);
+
+        List<Income> listIncome = incomeRepository.findAll().stream()
+                                    .filter(income -> !income.getDate().isBefore(firstDayOfLastMonth) &&
+                                    !income.getDate().isAfter(lastDayOfLastMonth))
+                                    .collect(Collectors.toList());
+        
+        int total = listIncome.stream().filter(x -> x.getAmount() > 0).mapToInt(Income::getAmount).sum();
+
+        return total;
+    }
 }

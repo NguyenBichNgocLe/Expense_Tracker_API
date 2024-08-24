@@ -1,5 +1,7 @@
 package com.arilalale.ExpenseTracker.controller;
 
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -63,6 +65,16 @@ public class ExpenseController {
     @GetMapping("/custom")
     public ResponseEntity<?> getExpensesByCustom(@RequestBody DateDTO dto) {
         return ResponseEntity.ok(expenseService.filterExpensesByCustom(dto.getStartDate(), dto.getEndDate()));
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<?> totalExpenseLastMonth() {
+        Integer totalExpense = expenseService.totalExpenseLastMonth();
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("total", totalExpense);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping

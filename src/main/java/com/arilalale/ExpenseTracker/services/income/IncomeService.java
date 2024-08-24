@@ -18,4 +18,6 @@ public interface IncomeService {
     void deleteIncome(Long id);
 
     List<Income> filterIncomesLastMonth();
+
+    Integer totalIncomeLastMonth();
 }
