@@ -7,7 +7,7 @@ import com.arilalale.ExpenseTracker.entity.Income;
 
 public interface IncomeService {
 
-    public Income postIncome(IncomeDTO incomeDTO);
+    Income postIncome(IncomeDTO incomeDTO);
 
     List<Income> getAllIncomes();
 
@@ -16,4 +16,8 @@ public interface IncomeService {
     Income updateIncome(Long id, IncomeDTO incomeDTO);
 
     void deleteIncome(Long id);
+
+    List<Income> filterIncomesLastMonth();
+
+    Integer totalIncomeLastMonth();
 }

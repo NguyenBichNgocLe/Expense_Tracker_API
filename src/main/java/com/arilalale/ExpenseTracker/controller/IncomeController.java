@@ -1,5 +1,7 @@
 package com.arilalale.ExpenseTracker.controller;
 
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,6 +43,21 @@ public class IncomeController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
+    }
+
+    @GetMapping("/lastmonth")
+    public ResponseEntity<?> getIncomesLastMonth() {
+        return ResponseEntity.ok(incomeService.filterIncomesLastMonth());
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<?> totalIncomeLastMonth() {
+        Integer totalIncome = incomeService.totalIncomeLastMonth();
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("total", totalIncome);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping

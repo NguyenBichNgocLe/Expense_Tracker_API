@@ -25,4 +25,6 @@ public interface ExpenseService {
     List<Expense> filterExpensesLast3Months();
 
     List<Expense> filterExpensesByCustom(LocalDate startDate, LocalDate endDate);
+
+    Integer totalExpenseLastMonth();
 }
