@@ -1,4 +1,4 @@
-# Keane - Expense Tracker API
+# Keane - Expense Tracker Platform
 ## Overview
 Keane is an Expense Tracking platform built using Java Spring. It is designed to help users manage their financial records by tracking expenses and incomes. The API supports CRUD (Create, Read, Update, Delete) operations for both expenses and incomes, along with various filtering and aggregation features. This project can be used as a backend for financial tracking applications, enabling users to monitor their spending habits and income streams over time.
 
